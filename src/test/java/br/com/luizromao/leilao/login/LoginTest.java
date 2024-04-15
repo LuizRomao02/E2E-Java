@@ -5,13 +5,9 @@ import br.com.luizromao.leilao.config.pages.LoginPage;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-
 import static org.junit.Assert.*;
 
 public class LoginTest {
-
 
 	private LoginPage paginaDeLogin;
 
@@ -27,8 +23,7 @@ public class LoginTest {
 
 	@Test
 	public void deveriaEfetuarLoginComDadosValidos() {
-		paginaDeLogin.preencherFormularioDeLogin("fulano", "pass");
-		paginaDeLogin.efetuarLogin();
+		paginaDeLogin.efetuarLogin("fulano", "pass");
 
 		String nomeUsuarioLogado = paginaDeLogin.getNomeUsuarioLogado();
 		assertEquals("fulano", nomeUsuarioLogado);
@@ -37,8 +32,7 @@ public class LoginTest {
 
 	@Test
 	public void naoDeveriaEfetuarLoginComDadosInvalidos() {
-		paginaDeLogin.preencherFormularioDeLogin("invalido", "1233");
-		paginaDeLogin.efetuarLogin();
+		paginaDeLogin.efetuarLogin("invalido", "1233");
 
 		assertNull(paginaDeLogin.getNomeUsuarioLogado());
 		assertTrue(paginaDeLogin.isPaginaAtual());
@@ -54,4 +48,5 @@ public class LoginTest {
 
 		paginaDeLances.fechar();
 	}
+
 }

@@ -1,28 +1,27 @@
 package br.com.luizromao.leilao.config.pages;
 
+import br.com.luizromao.leilao.config.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-public class LoginPage {
+public class LoginPage extends PageObject {
 
     private static final String URL_LOGIN = "http://localhost:8080/login";
-    private WebDriver browser;
 
-    public LoginPage(){
-        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver_win32\\chromedriver.exe");
-        this.browser = new ChromeDriver();
-        browser.navigate().to(URL_LOGIN);
+    public LoginPage() {
+        super(null);
+        this.browser.navigate().to(URL_LOGIN);
     }
 
-    public void preencherFormularioDeLogin(String username, String password) {
+    private void preencherFormularioDeLogin(String username, String password) {
         browser.findElement(By.id("username")).sendKeys(username);
         browser.findElement(By.id("password")).sendKeys(password);
     }
 
-    public void efetuarLogin() {
+    public LeiloesPage efetuarLogin(String username, String password) {
+        this.preencherFormularioDeLogin(username, password);
         browser.findElement(By.id("login-form")).submit();
+        return new LeiloesPage(browser);
     }
 
     public String getNomeUsuarioLogado() {
@@ -41,7 +40,4 @@ public class LoginPage {
         return browser.getPageSource().contains("Usuário e senha inválidos");
     }
 
-    public void fechar() {
-        this.browser.quit();
-    }
 }
